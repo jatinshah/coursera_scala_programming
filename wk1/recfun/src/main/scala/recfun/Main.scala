@@ -36,6 +36,8 @@ object Main {
   def countChange(money: Int, coins: List[Int]): Int = {
     if (money == 0) 1
     else if (coins.isEmpty) 0
-    else (0 to money / coins.head).map((x:Int) => countChange(money-x*coins.head, coins.tail)).foldLeft(0)((c:Int,r:Int) => r + c)
+    else (0 to money / coins.head).
+      map((x:Int) => countChange(money-x*coins.head, coins.tail)).
+      foldLeft(0)((c:Int,r:Int) => r + c)
   }
 }
