@@ -86,7 +86,7 @@ class FunSetSuite extends FunSuite {
    * Once you finish your implementation of "singletonSet", exchange the
    * function "ignore" by "test".
    */
-  ignore("singletonSet(1) contains 1") {
+  test("singletonSet(1) contains 1") {
     
     /**
      * We create a new instance of the "TestSets" trait, this gives us access
@@ -101,12 +101,70 @@ class FunSetSuite extends FunSuite {
     }
   }
 
-  ignore("union contains all elements") {
+  test("union contains all elements") {
     new TestSets {
       val s = union(s1, s2)
       assert(contains(s, 1), "Union 1")
       assert(contains(s, 2), "Union 2")
       assert(!contains(s, 3), "Union 3")
+    }
+  }
+
+  test("intersection contains 2"){
+    new TestSets {
+      val s = union(s1, s2)
+      val t = union(s2, s3)
+      val u = intersect(s,t)
+      assert(contains(u,2), "Intersect 2")
+      assert(!contains(u,1), "Intersect 1")
+      assert(!contains(u,3), "Intersect 3")
+    }
+  }
+
+  test("diff contains 1 & 2"){
+    new TestSets {
+      val s = union(s1, union(s2,s3))
+      val t = union(s1, s2)
+      val u = diff(s,t)
+      assert(contains(u,3), "Diff 3")
+      assert(!contains(u,2), "Diff 2")
+      assert(!contains(u,1), "Diff 1")
+    }
+  }
+
+  test("filter odd values"){
+    new TestSets {
+      val s = union(s1, union(s2, s3))
+      val t = filter(s, (_: Int) % 2 != 2)
+      assert(contains(t,1), "Filter 1")
+      assert(contains(t,2), "Filter 2")
+      assert(contains(t,3), "Filter 3")
+    }
+  }
+
+  test("for all is correct"){
+    new TestSets {
+      val s = union(s1, s3)
+      val t= union(s, s2)
+      assert(forall(s, (_:Int) % 2 != 0), "Odd Values")
+      assert(!forall(t, (_:Int) % 2 != 0), "All even false")
+    }
+  }
+
+  test("exists is correct"){
+    new TestSets {
+      val s = union(s1, union(s2, s3))
+      assert(exists(s, (_: Int) % 2 == 0), "Even values")
+    }
+  }
+
+  test("test map: set of even numbers"){
+    new TestSets {
+      val s = union(s1, union(s2, s3))
+      val t = map(s, (_:Int) * 2)
+      assert(contains(t, 2), "double of 1")
+      assert(contains(t, 4), "double of 2")
+      assert(contains(t, 6), "double of 3")
     }
   }
 }
