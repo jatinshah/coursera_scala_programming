@@ -130,12 +130,7 @@ class Empty extends TweetSet {
 
   def findTweetsAcc(keywords: List[String], acc: TweetSet) = acc
 
-  def mostRetweetedAux(tweet: Option[Tweet]) = {
-    tweet match {
-      case Some(t) => tweet
-      case None => throw new java.util.NoSuchElementException()
-    }
-  }
+  def mostRetweetedAux(tweet: Option[Tweet]) = tweet
 
   /**
    * The following methods are already implemented
