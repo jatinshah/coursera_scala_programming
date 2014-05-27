@@ -99,6 +99,7 @@ object Huffman {
   }
   def times(chars: List[Char]): List[(Char, Int)] = times_(chars, Nil)
 
+
   /**
    * Returns a list of `Leaf` nodes for a given frequency table `freqs`.
    *
