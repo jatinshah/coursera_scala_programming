@@ -83,18 +83,21 @@ object Huffman {
    */
   def update_list(chr: Char, list: List[(Char, Int)]): List[(Char, Int)] = {
     list match{
-      case List((c, w)) => List((c, w + 1))
-      case (c,w)::cs => if (c == chr) (c, w+1)::cs else update_list(chr, cs)
+      case Nil => List((chr, 1))
+      case (c, w)::cs => {
+        if(chr == c) (c, w+1)::cs
+        else (c, w)::update_list(chr, cs)
+      }
     }
   }
 
-  def times(chars: List[Char]): List[(Char, Int)] = {
+  def times_(chars: List[Char], acc: List[(Char, Int)]): List[(Char, Int)] = {
     chars match {
-      case List(c) => List((c,1))
-      case c::cs => update_list(c, times(cs))
-      case Nil => Nil
+      case Nil => acc
+      case ch::cs => times_(cs, update_list(ch, acc))
     }
   }
+  def times(chars: List[Char]): List[(Char, Int)] = times_(chars, Nil)
 
   /**
    * Returns a list of `Leaf` nodes for a given frequency table `freqs`.
