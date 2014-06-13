@@ -40,11 +40,38 @@ class BloxorzSuite extends FunSuite {
     val optsolution = List(Right, Right, Down, Right, Right, Right, Down)
   }
 
+
   test("terrain function level 1") {
     new Level1 {
       assert(terrain(Pos(0,0)), "0,0")
+      assert(!terrain(Pos(0, 5)), "0,5")
+      assert(terrain(Pos(1, 1)), "1,1")
+      assert(terrain(Pos(3, 5)), "3,5")
       assert(!terrain(Pos(4,11)), "4,11")
     }
+  }
+
+  test("neighborsWithHistory level 1") {
+    new Level1 {
+      assert(neighborsWithHistory(Block(Pos(1,1),Pos(1,1)), List(Left,Up)).toSet ==
+        Set((Block(Pos(1,2),Pos(1,3)), List(Right,Left,Up)), (Block(Pos(2,1),Pos(3,1)), List(Down,Left,Up))),
+        "(1,1)(1,1)")
+    }
+  }
+
+  test("newNeighborsOnly level 1") {
+    new Level1 {
+      assert(newNeighborsOnly(
+        Set(
+          (Block(Pos(1,2),Pos(1,3)), List(Right,Left,Up)),
+          (Block(Pos(2,1),Pos(3,1)), List(Down,Left,Up))
+        ).toStream,
+        Set(Block(Pos(1,2),Pos(1,3)), Block(Pos(1,1),Pos(1,1)))
+      ) == Set(
+        (Block(Pos(2,1),Pos(3,1)), List(Down,Left,Up))
+      ).toStream, "newNeighborsOnly")
+    }
+
   }
 
   test("findChar level 1") {
